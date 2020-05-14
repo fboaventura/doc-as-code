@@ -1,0 +1,102 @@
+version: '3.5'
+
+services:
+  website: &app
+    image: registry.gitlab.com/ffbdev/fboaventuradev:latest-dev
+    environment:
+      DB_PASS: dbP@ssw0rd
+      DB_SCHEMA: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: fredericocf
+      DB_USER: fredericocf
+      DB_BACKEND: postgresql_psycopg2
+      DEBUG: 1
+      REDIS_URL: redis://redis:6379/0
+      REDIS_CACHE: redis://redis:6379/1
+      CELERY_HOST: rabbitmq
+    volumes:
+      - ./:/code
+    expose:
+      - "8001"
+    ports:
+#      - "8000:8000"
+      - "8000:8001"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+      - rabbitmq
+      - redis
+
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_PASSWORD: dbP@ssw0rd
+      DB_SCHEMA: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: fredericocf
+      POSTGRES_USER: fredericocf
+      PGDATA: /var/lib/postgresql/data/pgdata
+      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+    ports:
+      - '5432:5432'
+    depends_on: []
+    volumes:
+      - ffb_pgsql:/var/lib/postgresql/data/pgdata
+
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: frederico
+      RABBITMQ_DEFAULT_PASS: p@ssw0rd
+      RABBITMQ_USERNAME: frederico
+      RABBITMQ_PASSWORD: p@ssw0rd
+      RABBITMQ_VHOST: /
+    ports:
+      - '4369:4369'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+    depends_on: []
+    volumes:
+      - ffb_rabbit:/bitnami
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    depends_on: []
+
+  celery_beat:
+    <<: *app
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start/beat.sh
+
+  celery_worker:
+    <<: *app
+    depends_on:
+      - redis
+      - postgres
+      - celery_beat
+    ports: []
+    command: /start/worker.sh
+
+  celery_flower:
+    <<: *app
+    depends_on:
+      - redis
+      - postgres
+      - celery_worker
+      - celery_beat
+    ports:
+      - 5555:5555
+    command: /start/flower.sh
+
+volumes:
+  ffb_pgsql:
+  ffb_rabbit:

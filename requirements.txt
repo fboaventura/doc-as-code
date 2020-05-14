@@ -1,0 +1,4 @@
+diagrams==0.10.0
+ruamel.yaml==0.16.10
+ansible==2.9.9
+loguru==0.4.1

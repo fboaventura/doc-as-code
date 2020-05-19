@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 
 services:
   website: &app
@@ -17,10 +17,7 @@ services:
       CELERY_HOST: rabbitmq
     volumes:
       - ./:/code
-    expose:
-      - "8001"
     ports:
-#      - "8000:8000"
       - "8000:8001"
     links:
       - postgres
@@ -84,6 +81,12 @@ services:
       - postgres
       - celery_beat
     ports: []
+    deploy:
+       replicas: 2
+       update_config:
+         parallelism: 2
+         delay: 10s
+         order: start-first
     command: /start/worker.sh
 
   celery_flower:

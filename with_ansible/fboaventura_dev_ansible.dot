@@ -1,0 +1,132 @@
+digraph "all" {
+  rankdir=LR; splines=ortho;
+
+  "all" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">all</font>
+  </b></td></tr>
+</table>
+>]
+  "beat" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">beat</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "broker" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">broker</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "Celery" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Celery</font>
+  </b></td></tr>
+</table>
+>]
+  "database" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">database</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "django" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">django</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "flower" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">flower</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "logs" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">logs</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "Memcached" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Memcached</font>
+  </b></td></tr>
+</table>
+>]
+  "Nginx" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Nginx</font>
+  </b></td></tr>
+</table>
+>]
+  "Postgresql" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Postgresql</font>
+  </b></td></tr>
+</table>
+>]
+  "Rabbitmq" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Rabbitmq</font>
+  </b></td></tr>
+</table>
+>]
+  "Redis" [shape=record label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">Redis</font>
+  </b></td></tr>
+</table>
+>]
+  "sessions" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">sessions</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "worker1" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">worker1</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+  "worker2" [shape=record style=rounded label=<
+<table border="0" cellborder="0">
+  <tr><td><b>
+  <font face="Times New Roman, Bold" point-size="16">worker2</font>
+  </b></td></tr>
+<hr/><tr><td><font face="Times New Roman, Bold" point-size="14">link_to<br/></font></td></tr></table>
+>]
+
+  "all" -> "Nginx";
+  "all" -> "Redis";
+  "all" -> "Celery";
+  "all" -> "Postgresql";
+  "all" -> "Memcached";
+  "all" -> "Rabbitmq";
+  "Celery" -> "beat";
+  "Celery" -> "worker2";
+  "Celery" -> "worker1";
+  "Celery" -> "flower";
+  "Memcached" -> "sessions";
+  "Nginx" -> "django";
+  "Postgresql" -> "database";
+  "Rabbitmq" -> "broker";
+  "Redis" -> "logs";
+}

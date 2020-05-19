@@ -32,7 +32,7 @@ def ansible_main():
     ignore = ('all', 'ungrouped')
     nodes = []
 
-    with Diagram('fboaventura.dev', show=False, filename='ansible_fboaventura_dev',
+    with Diagram('fboaventura.dev - Ansible', show=False, filename='ansible_fboaventura_dev',
                  outformat='png', direction="LR", graph_attr=graph_attr) as diag:
 
         edge = Edge(color="#1D3B52", style='solid', forward=True)

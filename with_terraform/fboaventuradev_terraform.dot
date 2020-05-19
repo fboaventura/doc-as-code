@@ -1,0 +1,70 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] docker_container.beat" [label = "docker_container.beat", shape = "box"]
+		"[root] docker_container.flower" [label = "docker_container.flower", shape = "box"]
+		"[root] docker_container.postgres" [label = "docker_container.postgres", shape = "box"]
+		"[root] docker_container.rabbitmq" [label = "docker_container.rabbitmq", shape = "box"]
+		"[root] docker_container.redis" [label = "docker_container.redis", shape = "box"]
+		"[root] docker_container.website" [label = "docker_container.website", shape = "box"]
+		"[root] docker_container.worker" [label = "docker_container.worker", shape = "box"]
+		"[root] docker_image.postgres" [label = "docker_image.postgres", shape = "box"]
+		"[root] docker_image.rabbitmq" [label = "docker_image.rabbitmq", shape = "box"]
+		"[root] docker_image.redis" [label = "docker_image.redis", shape = "box"]
+		"[root] docker_image.website-dev" [label = "docker_image.website-dev", shape = "box"]
+		"[root] docker_image.website-prod" [label = "docker_image.website-prod", shape = "box"]
+		"[root] docker_volume.ffbdev_pgsql" [label = "docker_volume.ffbdev_pgsql", shape = "box"]
+		"[root] docker_volume.ffbdev_rabbit" [label = "docker_volume.ffbdev_rabbit", shape = "box"]
+		"[root] output.website" [label = "output.website", shape = "note"]
+		"[root] provider.docker" [label = "provider.docker", shape = "diamond"]
+		"[root] var.app_env" [label = "var.app_env", shape = "note"]
+		"[root] var.db_env" [label = "var.db_env", shape = "note"]
+		"[root] var.host_path" [label = "var.host_path", shape = "note"]
+		"[root] var.rabbit_env" [label = "var.rabbit_env", shape = "note"]
+		"[root] docker_container.beat" -> "[root] docker_container.postgres"
+		"[root] docker_container.beat" -> "[root] docker_container.rabbitmq"
+		"[root] docker_container.beat" -> "[root] docker_container.redis"
+		"[root] docker_container.beat" -> "[root] docker_image.website-dev"
+		"[root] docker_container.beat" -> "[root] var.app_env"
+		"[root] docker_container.beat" -> "[root] var.host_path"
+		"[root] docker_container.flower" -> "[root] docker_container.beat"
+		"[root] docker_container.flower" -> "[root] docker_container.worker"
+		"[root] docker_container.postgres" -> "[root] docker_image.postgres"
+		"[root] docker_container.postgres" -> "[root] docker_volume.ffbdev_pgsql"
+		"[root] docker_container.postgres" -> "[root] var.db_env"
+		"[root] docker_container.rabbitmq" -> "[root] docker_image.rabbitmq"
+		"[root] docker_container.rabbitmq" -> "[root] docker_volume.ffbdev_rabbit"
+		"[root] docker_container.rabbitmq" -> "[root] var.rabbit_env"
+		"[root] docker_container.redis" -> "[root] docker_image.redis"
+		"[root] docker_container.website" -> "[root] docker_container.postgres"
+		"[root] docker_container.website" -> "[root] docker_container.rabbitmq"
+		"[root] docker_container.website" -> "[root] docker_container.redis"
+		"[root] docker_container.website" -> "[root] docker_image.website-dev"
+		"[root] docker_container.website" -> "[root] var.app_env"
+		"[root] docker_container.website" -> "[root] var.host_path"
+		"[root] docker_container.worker" -> "[root] docker_container.postgres"
+		"[root] docker_container.worker" -> "[root] docker_container.rabbitmq"
+		"[root] docker_container.worker" -> "[root] docker_container.redis"
+		"[root] docker_container.worker" -> "[root] docker_image.website-dev"
+		"[root] docker_container.worker" -> "[root] var.app_env"
+		"[root] docker_container.worker" -> "[root] var.host_path"
+		"[root] docker_image.postgres" -> "[root] provider.docker"
+		"[root] docker_image.rabbitmq" -> "[root] provider.docker"
+		"[root] docker_image.redis" -> "[root] provider.docker"
+		"[root] docker_image.website-dev" -> "[root] provider.docker"
+		"[root] docker_image.website-prod" -> "[root] provider.docker"
+		"[root] docker_volume.ffbdev_pgsql" -> "[root] provider.docker"
+		"[root] docker_volume.ffbdev_rabbit" -> "[root] provider.docker"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] docker_container.flower"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] docker_image.website-prod"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.website"
+		"[root] output.website" -> "[root] docker_container.website"
+		"[root] provider.docker (close)" -> "[root] docker_container.flower"
+		"[root] provider.docker (close)" -> "[root] docker_container.website"
+		"[root] provider.docker (close)" -> "[root] docker_image.website-prod"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.docker (close)"
+	}
+}
+

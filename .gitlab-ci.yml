@@ -1,0 +1,31 @@
+image: python:3.8-slim
+
+cache:
+  key: "py-38"
+  paths:
+  - /code/venv
+
+stages:
+  - deploy
+
+before_script:
+  - apt update && apt install -y graphviz make
+  - pip install --upgrade -r requirements.txt
+
+pages:
+  stage: deploy
+  script:
+    - cd simple
+    - python simple_infra.py
+    - cd ../with_docker
+    - python docker_infra.py
+    - cd ../with_ansible
+    - ansible-inventory-grapher -i hosts.yml -a "rankdir=LR" all | dot -Tpng > fboaventura_dev_ansible_grapher.png
+    - python ansible_infra.py
+    - cd ../with_terraform
+    - cd ../docs
+    - make html
+    - mv build/html ../public
+  artifacts:
+    paths:
+      - public

@@ -1,6 +1,6 @@
 diagrams==0.11.0
 ruamel.yaml==0.16.10
-ansible==2.9.9
+ansible==4.2.0
 ansible-inventory-grapher==2.5.0
 loguru==0.5.0
 python-hcl2==0.2.6

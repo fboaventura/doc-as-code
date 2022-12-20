@@ -5,5 +5,5 @@ ansible-inventory-grapher==2.5.0
 loguru==0.5.0
 python-hcl2==0.2.6
 sphinx==3.0.3
-pygments==2.6.1
+pygments==2.7.4
 timg==1.1.3
